@@ -14,48 +14,63 @@ export default function Home() {
   const [nineState, setNineState] = useState('')
 
   const [currentPlayer, setCurrentPlayer] = useState('x')
+  const [activateButtonPlayer, setActivateButtonPlayer] = useState(false)
+  const [activateAlert, setActivateAlert] = useState(false)
 
+  if (activateAlert) {
+    alert(winner)
+  }else{
+    
+  }
+  function endGame() {
+    setActivateAlert(true);
+    setActivateButtonPlayer(true);
+    console.log('alert', activateAlert)
+    
+  }
+  function reset() {
+    setCount(0)
+    setWinner('')
+    setTwoState('')
+    setOneState('')
+    setThreeState('')
+    setFourState('')
+    setFiveState('')
+    setSixState('')
+    setSevenState('')
+    setEightState('')
+    setNineState('')
+    setCurrentPlayer('x')
+    setActivateButtonPlayer(false)
+    setActivateAlert(false)
+
+  }
   useEffect(() => {
-    let activateAlert = false;
+    currentPlayer == 'x' ?setWinner('o') : setWinner ('x')
+
     // OJO! QUE ESTO TAMBIÉN SE VA A RENDERIZAR POR PRIMERA VEZ
     // CREAR UNA FORMA QUE NO ARROJE GANADOR LA PRIMERA VEZ QUE SE RENDERIZA
-    setWinner(currentPlayer);
-    if (count >= 5) {
+    // setWinner(currentPlayer == 'x' && 'o');
+    if (count >= 5 || !activateAlert) {
       if (oneState === twoState && twoState === threeState && oneState !== '') {
-        console.log('winner1', winner);
-        activateAlert = true
+        endGame();
       } else if (fourState === fiveState && fiveState === sixState && fourState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner2', winner);
-        activateAlert = true;
+        endGame();
       } else if (sevenState === eightState && eightState === nineState && sevenState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner3', winner);
-        activateAlert = true;
+        endGame();
       } else if (oneState === fourState && fourState === sevenState && oneState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner4', winner);
-        activateAlert = true;
+        endGame();
       } else if (twoState === fiveState && fiveState === eightState && twoState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner5', winner);
-        activateAlert = true;
+        endGame();
       } else if (threeState === sixState && sixState === nineState && threeState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner6', winner);
-        activateAlert = true;
+        endGame();
       } else if (oneState === fiveState && fiveState === nineState && oneState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner7', winner);
-        activateAlert = true;
+        endGame();
       } else if (threeState === fiveState && fiveState === sevenState && threeState !== '') {
-        // setWinner(currentPlayer)
-        console.log('winner8', winner)
-        activateAlert = true;
-
+        endGame();
       }
-
-      activateAlert ? alert(winner) : activateAlert = false
+      
+      // activateAlert ? alert(winner) : setActivateAlert(false)
     } else {
       return
     }
@@ -67,8 +82,6 @@ export default function Home() {
   // 2. Cuando un player gane, se muestre un Alert
 
   // 3. Ver 4 button reset
-
-
 
   function changePlayer(buttonValue) {
     setCount(count + 1)
@@ -101,20 +114,25 @@ export default function Home() {
 
   }
 
+
+
   return (
     <>
-      <h2>{currentPlayer}</h2>
+      <h2 className="m-4 text-4xl font-bold tracking-tight text-indigo-600">Current Player : {currentPlayer}</h2>
       <div className="grid grid-cols-3 gap-4">
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('uno')} disabled={oneState}>{oneState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('dos')} disabled={twoState}>{twoState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('tres')} disabled={threeState}>{threeState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('cuatro')} disabled={fourState}>{fourState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('cinco')} disabled={fiveState}>{fiveState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('seis')} disabled={sixState}>{sixState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('siete')} disabled={sevenState}>{sevenState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('ocho')} disabled={eightState}>{eightState}</button>
-        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('nueve')} disabled={nineState}>{nineState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('uno')} disabled={activateButtonPlayer || oneState}>{oneState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('dos')} disabled={activateButtonPlayer || twoState}>{twoState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('tres')} disabled={activateButtonPlayer || threeState}>{threeState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('cuatro')} disabled={activateButtonPlayer || fourState}>{fourState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('cinco')} disabled={activateButtonPlayer || fiveState}>{fiveState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('seis')} disabled={activateButtonPlayer || sixState}>{sixState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('siete')} disabled={activateButtonPlayer || sevenState}>{sevenState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('ocho')} disabled={activateButtonPlayer || eightState}>{eightState}</button>
+        <button className="h-20 border-4 border-indigo-500/100" onClick={() => changePlayer('nueve')} disabled={activateButtonPlayer || nineState}>{nineState}</button>
       </div>
+
+      <button className="my-4 p-2 border-2 bg-red-300/100" onClick={() => reset()}>Reset</button>
+
     </>
   )
 }
